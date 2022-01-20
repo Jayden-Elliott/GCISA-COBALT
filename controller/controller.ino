@@ -2,17 +2,28 @@
 
 // CO2 SENSOR SETUP
 SoftwareSerial sensor(12, 13);  // RX, TX pins on Ardunio
-int co2 = 0;
-int temp = 0;
-int hum = 0;
+
+// RELAY BOARD SETUP
+const int pump = 6;
+const int valve = 7;
+
+// GLOBALS
+int co2;
+int temp;
+int hum;
 
 void setup() {
-    Serial.print("\n\n");
-    Serial.println("Cozir CO2 Sensor Testing");
     Serial.begin(9600);
     sensor.begin(9600);  // Start serial communications with sensor
     sensor.println("M 4164");  // set mode for co2, temp, and humidity outputs
     sensor.println("K 2");  // set polling mode
+
+    pinMode(pump, OUTPUT);
+    pinMode(valve, OUTPUT);
+
+    co2 = 0;
+    temp = 0;
+    hum = 0;
 }
 
 void loop() {
@@ -21,6 +32,13 @@ void loop() {
     Serial.println("Temp: " + String(temp));
     Serial.println("Hum: " + String(hum));
     Serial.println();
+
+    if (co2 >= 1900) {
+        digitalWrite(valve, HIGH);
+    } else {
+        digitalWrite(valve, LOW);
+    }
+
     delay(1000);
 }
 
