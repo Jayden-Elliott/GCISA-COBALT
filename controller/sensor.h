@@ -37,6 +37,12 @@ class cozir {
         hum = hum_in.toInt() / 10;
     }
 
+    void print_measurements() {
+        Serial.println("CO2: " + String(co2));
+        Serial.println("Temp: " + String(temp));
+        Serial.println("Hum: " + String(hum));
+    }
+
    private:
     SoftwareSerial sensor;
     int co2;
@@ -68,6 +74,10 @@ class sprintir {
         sensor.println("Z");
         reading = sensor.readStringUntil('\n');
         co2 = multiplier * reading.substring(3, 8).toInt();
+    }
+
+    void print_measurements() {
+        Serial.println("CO2: " + String(co2));
     }
 
    private:

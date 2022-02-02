@@ -1,4 +1,5 @@
 #include <SoftwareSerial.h>
+
 #include "sensor.h"
 
 // CO2 SENSOR SETUP
@@ -20,10 +21,7 @@ void setup() {
 
 void loop() {
     refresh_all();
-    Serial.println("COZIR READING\nCO2: " + String(cozir3.get_co2()) +
-                   "\nTemp: " + String(cozir3.get_temp()) +
-                   "\nHum: " + String(cozir3.get_hum()) + "\n");
-    Serial.println("SPRINTIR READING\nCO2: " + String(sprintir1.get_co2()) + "\n");
+    print_sensors();
 
     if (cozir3.get_co2() >= 1900) {
         digitalWrite(valve, HIGH);
@@ -39,4 +37,19 @@ void refresh_all() {
     cozir2.refresh();
     cozir3.refresh();
     sprintir1.refresh();
+}
+
+void print_sensors() {
+    Serial.println("COZIR 1 READING");
+    cozir1.print_measurements();
+    Serial.println();
+    Serial.println("COZIR 2 READING");
+    cozir2.print_measurements();
+    Serial.println();
+    Serial.println("COZIR 3 READING");
+    cozir3.print_measurements();
+    Serial.println();
+    Serial.println("SPRINTIR 1 READING");
+    sprintir1.print_measurements();
+    Serial.println();
 }
