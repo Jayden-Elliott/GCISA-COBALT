@@ -17,11 +17,16 @@ void setup() {
 
     pinMode(pump, OUTPUT);
     pinMode(valve, OUTPUT);
+    Serial.println(
+        "index,cozir1_co2,cozir1_temp,cozir1_hum,cozir2_co2,cozir2_temp,cozir2_hum,"
+        "cozir3_co2,cozir3_temp,cozir3_hum,sprintir_co2");
 }
 
+int index;
 void loop() {
     refresh_all();
-    print_sensors();
+    // print_sensors();
+    print_csv(index);
 
     if (cozir3.get_co2() >= 1900) {
         digitalWrite(valve, HIGH);
@@ -30,6 +35,7 @@ void loop() {
     }
 
     delay(1000);
+    ++index;
 }
 
 void refresh_all() {
@@ -52,4 +58,9 @@ void print_sensors() {
     Serial.println("SPRINTIR 1 READING");
     sprintir1.print_measurements();
     Serial.println();
+}
+
+void print_csv(int index) {
+    Serial.println(String(index) + ',' + cozir1.get_csv() + ',' + cozir2.get_csv() + ',' +
+                   cozir3.get_csv() + ',' + sprintir1.get_csv());
 }

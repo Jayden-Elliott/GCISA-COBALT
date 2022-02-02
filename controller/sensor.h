@@ -43,6 +43,10 @@ class cozir {
         Serial.println("Hum: " + String(hum));
     }
 
+    String get_csv() {
+        return String(co2) + ',' + String(temp) + ',' + String(hum);
+    }
+
    private:
     SoftwareSerial sensor;
     int co2;
@@ -78,6 +82,10 @@ class sprintir {
 
     void print_measurements() {
         Serial.println("CO2: " + String(co2));
+    }
+
+    String get_csv() {
+        return String(co2);
     }
 
    private:
