@@ -10,14 +10,17 @@ class cozir {
         sensor.println("K 2");  // set polling mode
     }
 
+    // return co2 in ppm
     int get_co2() const {
         return co2;
     }
 
+    // returns temperature in °C
     int get_temp() const {
         return temp;
     }
 
+    // return % humidity
     int get_hum() const {
         return hum;
     }
@@ -38,9 +41,9 @@ class cozir {
     }
 
     void print_measurements() {
-        Serial.println("CO2: " + String(co2));
-        Serial.println("Temp: " + String(temp));
-        Serial.println("Hum: " + String(hum));
+        Serial.println("CO2: " + String(co2) + " ppm");
+        Serial.println("Temp: " + String(temp) + " °C");
+        Serial.println("Hum: " + String(hum) + "%");
     }
 
     String get_csv() {
@@ -64,6 +67,7 @@ class sprintir {
         sensor.println("K 2");  // set polling mode
     }
 
+    // returns co2 in ppm
     int get_co2() const {
         return co2;
     }
@@ -81,7 +85,7 @@ class sprintir {
     }
 
     void print_measurements() {
-        Serial.println("CO2: " + String(co2));
+        Serial.println("CO2: " + String(co2) + " ppm");
     }
 
     String get_csv() {
@@ -91,4 +95,23 @@ class sprintir {
    private:
     SoftwareSerial sensor;
     int co2;
+};
+
+class pressure {
+   public:
+    pressure(uint8_t pin_in) : pin(pin_in) {}
+
+    // returns pressure in psi
+    double get_pressure() {
+        double reading = analogRead(pin);
+        double voltage = reading / 1023 * 5;
+        return voltage * 44.5 / 4 - 20.0625;
+    }
+
+    void print_measurements() {
+        Serial.println("Pressure: " + String(get_pressure()) + " psi");
+    }
+
+   private:
+    uint8_t pin;
 };
